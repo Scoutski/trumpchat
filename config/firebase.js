@@ -1,16 +1,18 @@
-var admin = require('firebase-admin');
-var serviceAccount = require('./firebase.json');
+const firebase = require('firebase');
+// Required for side-effects
+require('firebase-admin');
+require("firebase/firestore");
 
-let defaultApp;
+let firebaseApp;
 
-if (!defaultApp) {
-  // Firebase connection
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: process.env.FIREBASE_URL
+if (!firebaseApp) {
+  firebaseApp = firebase.initializeApp({
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    databaseURL: process.env.FIREBASE_URL,
+    storageBucket: process.env.FIREBASAE_STORAGE_BUCKET
   });
-
-  defaultApp = admin;
 }
 
-module.exports = defaultApp;
+module.exports = firebaseApp;
